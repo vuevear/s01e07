@@ -66,9 +66,9 @@ export default {
   },
 
   mounted () {
-    const time = console.timeEnd(this.type)
-    console.log(time)
-    this.$emit('load', time)
+    debugger // eslint-disable-line
+    console.log('End...')
+    console.timeEnd(this.type)
   },
 
   methods: {

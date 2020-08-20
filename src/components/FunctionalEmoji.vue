@@ -1,7 +1,6 @@
 <template functional>
   <span>
     <span v-html="props.emoji" @click="listeners['emoji-click']" v-show="props.show"></span>
-    <slot />
   </span>
 </template>
 

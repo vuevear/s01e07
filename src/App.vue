@@ -2,18 +2,18 @@
   <div id="app">
     <header>
       <button @click="play = !play">{{ play ? 'Pause' : 'Play'}} </button>
-      <input type="number" v-model="qty">
-      <select v-model="type">
-        <option value="normal">Normal</option>
-        <option value="functional">Functional</option>
-      </select>
-      <h1>Load Time: {{ loadTime }}</h1>
+      <label for="type">
+        Tipo de Componente:
+        <select id="type" v-model="type">
+          <option value="normal">Normal</option>
+          <option value="functional">Functional</option>
+        </select>
+      </label>
     </header>
     <div>
       <h2>{{ type }}</h2>
-      <Wrapper v-for="i in parseInt(qty)"
-      @load="setLoadTime"
-      :type="type" :emojis="emojis" :play="play" :key="i"/>
+      <Wrapper v-if="type == 'normal'" type="normal" :emojis="emojis" :play="play"/>
+      <Wrapper v-else-if="type === 'functional'" type="functional" :emojis="emojis" :play="play"/>
     </div>
   </div>
 </template>
@@ -36,11 +36,9 @@ export default {
 
   data () {
     return {
-      qty: 1,
       type: 'normal',
       play: false,
       emojis: hexEmojis,
-      loadTime: 0,
     }
   },
 
@@ -63,7 +61,19 @@ export default {
 #app {
   font-family: sans-serif;
   display: flex;
-  padding-top: 20px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+}
+
+header label {
+  margin-left: 20px;
 }
 
 </style>
