@@ -1,28 +1,69 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <header>
+      <button @click="play = !play">{{ play ? 'Pause' : 'Play'}} </button>
+      <input type="number" v-model="qty">
+      <select v-model="type">
+        <option value="normal">Normal</option>
+        <option value="functional">Functional</option>
+      </select>
+      <h1>Load Time: {{ loadTime }}</h1>
+    </header>
+    <div>
+      <h2>{{ type }}</h2>
+      <Wrapper v-for="i in parseInt(qty)"
+      @load="setLoadTime"
+      :type="type" :emojis="emojis" :play="play" :key="i"/>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Wrapper from './components/Wrapper.vue'
+import emojis from '@/emojis'
+
+const hexEmojis = Object.values(emojis).map(e => e.b
+  .split('-')
+  .map(code => `&#x${code};`)
+  .join('')
+)
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Wrapper
+  },
+
+  data () {
+    return {
+      qty: 1,
+      type: 'normal',
+      play: false,
+      emojis: hexEmojis,
+      loadTime: 0,
+    }
+  },
+
+  watch: {
+    qty () {
+      this.play = false
+    }
+  },
+
+  methods: {
+    setLoadTime(time) {
+      this.loadTime = time
+    }
   }
 }
 </script>
 
 <style>
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: sans-serif;
+  display: flex;
+  padding-top: 20px;
 }
+
 </style>
